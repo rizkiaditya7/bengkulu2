@@ -4,6 +4,8 @@
     <div class="p-6 bg-gray-100 text-gray-900">
 
         <h2 class="text-xl font-bold text-blue-700 mb-4">📊 Hasil Survei Kepuasan</h2>
+        <a href="{{ route('export.survei') }}" class="bg-green-600 text-white px-3 py-2 rounded">📥 Export Excel</a>
+
 
         <div class="overflow-x-auto bg-white p-4 rounded shadow">
             <table class="min-w-full border text-sm">

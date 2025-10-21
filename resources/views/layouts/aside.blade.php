@@ -25,6 +25,11 @@
             <i class="fas fa-user-tie w-6"></i>
             <span class="ml-4">Profil Daerah</span>
         </a>
+        <a href="{{ route('admin.organisasi.index') }}"
+            class="flex items-center px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-700">
+            <i class="fas fa-user-tie w-6"></i>
+            <span class="ml-4">Profil Organisasi</span>
+        </a>
         <a href="{{ route('admin.media.index') }}"
             class="flex items-center px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-700">
             <i class="fas fa-user-tie w-6"></i>
@@ -66,6 +71,11 @@
             class="flex items-center px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-700">
             <i class="fas fa-images w-6"></i>
             <span class="ml-4">Galeri</span>
+        </a>
+        <a href="{{ route('admin.visi.index') }}"
+            class="flex items-center px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-700">
+            <i class="fas fa-images w-6"></i>
+            <span class="ml-4">Visi Misi</span>
         </a>
         <a href="{{ route('admin.penghargaan') }}"
             class="flex items-center px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-700">

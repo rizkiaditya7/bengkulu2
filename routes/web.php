@@ -24,6 +24,8 @@ use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\MediaSosialController;
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\HeroesController;
+use App\Http\Controllers\ProfilLembagaController;
+use App\Http\Controllers\ProfilOrganisasiController;
 
 // ROUTE UNTUK TAMPILAN UMUM
 
@@ -235,6 +237,8 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
     Route::resource('layanan', LayananController::class)
         ->names('admin.layanan');
     Route::resource('heroes', HeroesController::class)->names('admin.heroes');
+    Route::resource('visi', ProfilLembagaController::class)->names('admin.visi');
+    Route::resource('profil_organisasi', ProfilOrganisasiController::class)->names('admin.organisasi');
 });
     Route::get('bukutamu', [BukuTamuController::class, 'index'])->middleware(['auth', 'verified'])->name('bukutamu.index');
     Route::get('bukutamu/{bukutamu}/edit', [BukuTamuController::class, 'edit'])->middleware(['auth', 'verified'])->name('bukutamu.edit');
@@ -247,6 +251,8 @@ Route::prefix('survei')->group(function () {
     Route::get('/', [SurveisController::class, 'create'])->name('survei.create');
     Route::post('/', [SurveisController::class, 'store'])->name('survei.store');
     Route::get('/hasil', [SurveisController::class, 'index'])->middleware(['auth', 'verified'])->name('survei.index');
+    Route::get('/export-survei', [SurveisController::class, 'exportExcel'])->name('export.survei');
+
 });
 
 Route::middleware('auth')->group(function () {
