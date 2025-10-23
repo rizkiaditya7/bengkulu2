@@ -33,10 +33,14 @@ class ViewServiceProvider extends ServiceProvider
         $nama = $profil->nama ?? 'Nama Perusahaan';
         $parts = explode(' ', $nama, 2);
     
-        $bagian1 = $parts[0];
+        $bagian1 = $parts[0] ?? '';
         $bagian2 = $parts[1] ?? '';
     
         // Tambahkan bagian1 dan bagian2 ke dalam objek profil
+        if (!$profil) {
+            $profil = new \stdClass();
+        }
+        
         $profil->bagian1 = $bagian1;
         $profil->bagian2 = $bagian2;
     

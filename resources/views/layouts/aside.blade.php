@@ -30,6 +30,11 @@
             <i class="fas fa-user-tie w-6"></i>
             <span class="ml-4">Profil Organisasi</span>
         </a>
+        <a href="{{ route('admin.proses_fasilitasi.index') }}"
+            class="flex items-center px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-700">
+            <i class="fas fa-user-tie w-6"></i>
+            <span class="ml-4">Proses Fasilitasi Selain ASN</span>
+        </a>
         <a href="{{ route('admin.media.index') }}"
             class="flex items-center px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-700">
             <i class="fas fa-user-tie w-6"></i>

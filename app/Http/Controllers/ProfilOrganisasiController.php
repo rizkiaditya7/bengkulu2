@@ -39,7 +39,7 @@ class ProfilOrganisasiController extends Controller
 
         ProfilOrganisasi::create($data);
 
-        return redirect()->route('profil_organisasi.index')->with('success', 'Data berhasil ditambahkan!');
+        return redirect()->route('admin.organisasi.index')->with('success', 'Data berhasil ditambahkan!');
     }
 
     public function edit(ProfilOrganisasi $profil_organisasi)
@@ -69,12 +69,12 @@ class ProfilOrganisasiController extends Controller
 
         $profil_organisasi->update($data);
 
-        return redirect()->route('profil_organisasi.index')->with('success', 'Data berhasil diperbarui!');
+        return redirect()->route('admin.organisasi.index')->with('success', 'Data berhasil diperbarui!');
     }
 
     public function destroy(ProfilOrganisasi $profil_organisasi)
     {
         $profil_organisasi->delete();
-        return redirect()->route('profil_organisasi.index')->with('success', 'Data berhasil dihapus!');
+        return redirect()->route('admin.organisasi.index')->with('success', 'Data berhasil dihapus!');
     }
 }
