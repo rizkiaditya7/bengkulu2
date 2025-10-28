@@ -247,7 +247,8 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
     Route::get('bukutamu/{bukutamu}/edit', [BukuTamuController::class, 'edit'])->middleware(['auth', 'verified'])->name('bukutamu.edit');
     Route::put('bukutamu/{bukutamu}', [BukuTamuController::class, 'update'])->middleware(['auth', 'verified'])->name('bukutamu.update');
     Route::delete('bukutamu/{bukutamu}', [BukuTamuController::class, 'destroy'])->middleware(['auth', 'verified'])->name('bukutamu.destroy');
-
+    Route::get('/bukutamu/test/export', [BukuTamuController::class, 'export'])->name('bukutamu.export');
+    Route::get('/bukutamu/export/pdf', [BukuTamuController::class, 'exportPdf'])->name('bukutamu.export.pdf');
 
 // survei
 Route::prefix('survei')->group(function () {
@@ -257,6 +258,9 @@ Route::prefix('survei')->group(function () {
     Route::get('/export-survei', [SurveisController::class, 'exportExcel'])->name('export.survei');
 
 });
+
+Route::get('/survei/export/pdf', [SurveisController::class, 'exportPdf'])->name('export.survei.pdf');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

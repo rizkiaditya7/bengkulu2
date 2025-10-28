@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\BukuTamu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Exports\BukuTamuExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 
 class BukuTamuController extends Controller
@@ -110,5 +114,23 @@ class BukuTamuController extends Controller
         }
         $bukutamu->delete();
         return redirect()->route('bukutamu.index')->with('success', 'Data berhasil dihapus');
+    }
+
+    
+    public function export()
+    {
+        // dd("sampe sini");
+        return Excel::download(new BukuTamuExport, 'buku_tamu.xlsx');
+    }
+
+
+    public function exportPdf()
+    {
+        $data = BukuTamu::all();
+
+        $pdf = Pdf::loadView('bukutamu.export-pdf', compact('data'))
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->download('buku_tamu.pdf');
     }
 }
