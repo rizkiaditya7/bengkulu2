@@ -42,7 +42,7 @@
                 class="hidden md:flex flex-col md:flex-row md:items-center md:space-x-4 text-blue-800 font-medium absolute md:static top-full left-0 w-full md:w-auto bg-blue-50 md:bg-transparent shadow-lg md:shadow-none px-6 md:px-0 py-4 md:py-0 space-y-2 md:space-y-0 rounded-b-2xl md:rounded-none">
 
                 {{-- Dropdown: Pemerintahan --}}
-                <div class="relative group">
+                <!-- <div class="relative group">
                     <button
                         class="w-full text-left px-4 py-2 rounded-md hover:bg-blue-200/70 transition flex items-center justify-between md:justify-start">
                         Pemerintahan <i class="fas fa-chevron-down text-xs ml-2"></i>
@@ -65,10 +65,10 @@
                         <a href="{{ route('user.visi-misi') }}"
                             class="block px-4 py-2 text-sm hover:bg-blue-100 text-blue-800">Visi dan Misi</a>
                     </div>
-                </div>
+                </div> -->
 
                 {{-- Dropdown: Profil Daerah --}}
-                <div class="relative group">
+                <!-- <div class="relative group">
                     <button
                         class="w-full text-left px-4 py-2 rounded-md hover:bg-blue-200/70 transition flex items-center justify-between md:justify-start">
                         Profil Daerah <i class="fas fa-chevron-down text-xs ml-2"></i>
@@ -80,10 +80,10 @@
                         <a href="{{ route('user.data-statistik') }}"
                             class="block px-4 py-2 text-sm hover:bg-blue-100 text-blue-800">Data Statistik</a>
                     </div>
-                </div>
+                </div> -->
 
                 {{-- Dropdown: Media Informasi --}}
-                <div class="relative group">
+                <!-- <div class="relative group">
                     <button
                         class="w-full text-left px-4 py-2 rounded-md hover:bg-blue-200/70 transition flex items-center justify-between md:justify-start">
                         Media Informasi <i class="fas fa-chevron-down text-xs ml-2"></i>
@@ -97,13 +97,13 @@
                         <a href="{{ route('user.artikel') }}"
                             class="block px-4 py-2 text-sm hover:bg-blue-100 text-blue-800">Artikel</a>
                     </div>
-                </div>
+                </div> -->
 
                 {{-- Simple Links --}}
-                <a href="{{ route('user.penghargaan') }}"
+                <!-- <a href="{{ route('user.penghargaan') }}"
                     class="block md:inline-block px-4 py-2 rounded-md hover:bg-blue-200/70 transition">
                     Penghargaan
-                </a>
+                </a> -->
                 <a href="{{ route('bukutamu.front') }}"
                     class="block md:inline-block px-4 py-2 rounded-md hover:bg-blue-200/70 transition">
                     Buku Tamu
