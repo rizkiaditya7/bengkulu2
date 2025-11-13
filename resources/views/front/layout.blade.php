@@ -48,6 +48,8 @@
         @yield('content')
     </main>
     @include('front.sessions.footer')
+    @stack('scripts')
+
     <script>
     // Menunggu hingga seluruh dokumen HTML selesai dimuat
     document.addEventListener('DOMContentLoaded', function() {

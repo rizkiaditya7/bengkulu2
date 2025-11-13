@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Exports\BukuTamuExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
 
 
 
@@ -133,4 +134,96 @@ class BukuTamuController extends Controller
 
         return $pdf->download('buku_tamu.pdf');
     }
+    public function search(Request $request)
+{
+    // Ambil parameter dari DataTables
+        // echo($request->input('search.value'));die;
+    $draw   = intval($request->input('draw'));
+    $start  = intval($request->input('start', 0));
+    $length = intval($request->input('length', 10));
+    $search = $request->input('search.value'); 
+
+    // Hitung total semua data
+    $totalRecords = BukuTamu::count();
+
+    // Query dasar
+    $query = BukuTamu::query();
+
+    // Kalau ada pencarian
+    if (!empty($search)) {
+        $query->where(function ($q) use ($search) {
+            $q->where('nama', 'like', "%{$search}%")
+              ->orWhere('no_hp', 'like', "%{$search}%")
+              ->orWhere('jabatan', 'like', "%{$search}%")
+              ->orWhere('instansi', 'like', "%{$search}%");
+        });
+    }
+
+    // Hitung total data yang difilter
+    $totalFiltered = $query->count();
+
+    // Ambil data sesuai pagination dari DataTables
+    $data = $query->skip($start)
+                  ->take($length)
+                  ->orderBy('created_at', 'desc')
+                  ->get();
+
+    // Format respons sesuai DataTables
+    return response()->json([
+        'draw' => intval($draw),
+        'recordsTotal' => $totalRecords,
+        'recordsFiltered' => $totalFiltered,
+        'data' => $data,
+    ]);
+
+    
+}
+ /**
+     * Grafik jumlah tamu per instansi
+     */
+    public function instansi()
+    {
+        $data = BukuTamu::select('instansi', DB::raw('COUNT(*) as total'))
+            ->groupBy('instansi')
+            ->orderBy('total', 'desc')
+            ->get();
+
+        return response()->json([
+            'labels' => $data->pluck('instansi'),
+            'values' => $data->pluck('total'),
+        ]);
+    }
+
+    /**
+     * Grafik jumlah tamu per jabatan
+     */
+    public function jabatan()
+    {
+        $data = BukuTamu::select('jabatan', DB::raw('COUNT(*) as total'))
+            ->groupBy('jabatan')
+            ->orderBy('total', 'desc')
+            ->get();
+
+        return response()->json([
+            'labels' => $data->pluck('jabatan'),
+            'values' => $data->pluck('total'),
+        ]);
+    }
+
+    /**
+     * Grafik jumlah tamu per tanggal (dari kolom created_at)
+     */
+    public function harian()
+    {
+        $data = BukuTamu::select(DB::raw('DATE(created_at) as tanggal'), DB::raw('COUNT(*) as total'))
+            ->groupBy(DB::raw('DATE(created_at)'))
+            ->orderBy('tanggal', 'asc')
+            ->get();
+
+        return response()->json([
+            'labels' => $data->pluck('tanggal'),
+            'values' => $data->pluck('total'),
+        ]);
+    }
+
 }

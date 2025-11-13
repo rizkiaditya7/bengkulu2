@@ -249,6 +249,13 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
     Route::delete('bukutamu/{bukutamu}', [BukuTamuController::class, 'destroy'])->middleware(['auth', 'verified'])->name('bukutamu.destroy');
     Route::get('/bukutamu/test/export', [BukuTamuController::class, 'export'])->name('bukutamu.export');
     Route::get('/bukutamu/export/pdf', [BukuTamuController::class, 'exportPdf'])->name('bukutamu.export.pdf');
+    Route::get('/bukutamu/get/search', [BukuTamuController::class, 'search'])->name('bukutamu.search');
+    Route::prefix('chart')->group(function () {
+        Route::get('/instansi', [BukuTamuController::class, 'instansi'])->name('chart.instansi');
+        Route::get('/jabatan', [BukuTamuController::class, 'jabatan'])->name('chart.jabatan');
+        Route::get('/harian', [BukuTamuController::class, 'harian'])->name('chart.harian');
+    });
+
 
 // survei
 Route::prefix('survei')->group(function () {

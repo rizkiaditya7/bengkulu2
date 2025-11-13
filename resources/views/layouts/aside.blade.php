@@ -19,7 +19,7 @@
             <span class="ml-4">Dashboard</span>
         </a>
 
-        <!-- <p class="px-4 mt-4 mb-2 text-xs text-gray-500 uppercase">Profil</p>
+        <p class="px-4 mt-4 mb-2 text-xs text-gray-500 uppercase">Profil</p>
         <a href="{{ route('admin.profil.index') }}"
             class="flex items-center px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-700">
             <i class="fas fa-user-tie w-6"></i>
@@ -86,7 +86,7 @@
             class="flex items-center px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-700">
             <i class="fas fa-award w-6"></i>
             <span class="ml-4">Penghargaan</span>
-        </a> -->
+        </a>
         <p class="px-4 mt-4 mb-2 text-xs text-gray-500 uppercase">survei</p>
         <a href="{{ route('admin.pertanyaan.index') }}"
             class="flex items-center px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-700">
