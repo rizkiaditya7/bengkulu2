@@ -32,6 +32,7 @@
         @include('layouts.aside')
 
         @yield('content')
+        @stack('scripts')
     </div>
     </div>
 

@@ -1,25 +1,46 @@
 @extends('front.layout')
 
 @section('content')
-<div class="container mt-4">
-    <h3 class="mb-4">👤 Detail Buku Tamu</h3>
+<div class="max-w-xl mx-auto bg-white shadow-lg rounded-xl p-6 mt-6">
 
-    <div class="card p-4">
-        <p><strong>Nama:</strong> {{ $bukutamu->nama }}</p>
-        <p><strong>No. HP:</strong> {{ $bukutamu->no_hp }}</p>
-        <p><strong>Jabatan:</strong> {{ $bukutamu->jabatan }}</p>
-        <p><strong>Instansi:</strong> {{ $bukutamu->instansi }}</p>
-        <p><strong>Tujuan Kunjungan:</strong> {{ $bukutamu->tujuan }}</p>
-
-        <p><strong>Foto:</strong><br>
-            @if ($bukutamu->foto)
-            <img src="{{ asset('storage/' . $bukutamu->foto) }}" width="200">
-            @else
-            <span class="text-muted">Tidak ada foto</span>
-            @endif
-        </p>
-
-        <a href="{{ route('bukutamu.index') }}" class="btn btn-secondary">Kembali</a>
+    {{-- Judul --}}
+    <div class="flex items-center justify-center mb-4 space-x-2">
+        <i class="fas fa-user text-purple-600 text-xl"></i>
+        <h2 class="text-2xl font-bold text-gray-800">Detail Buku Tamu</h2>
     </div>
+
+    {{-- Konten --}}
+    <div class="space-y-3 text-center">
+
+        <p><span class="font-semibold text-gray-700">Nama:</span> {{ $bukutamu->nama }}</p>
+        <p><span class="font-semibold text-gray-700">No. HP:</span> {{ $bukutamu->no_hp }}</p>
+        <p><span class="font-semibold text-gray-700">Jabatan:</span> {{ $bukutamu->jabatan }}</p>
+        <p><span class="font-semibold text-gray-700">Instansi:</span> {{ $bukutamu->instansi }}</p>
+        <p><span class="font-semibold text-gray-700">Tujuan Kunjungan:</span> {{ $bukutamu->tujuan }}</p>
+
+        <div class="pt-4">
+            <p class="font-semibold text-gray-700 mb-2">Foto:</p>
+
+            @if ($bukutamu->foto)
+            <div class="flex justify-center">
+                <img src="{{ asset('storage/' . $bukutamu->foto) }}"
+                    class="w-56 rounded-xl shadow-md border border-gray-200 object-cover" />
+            </div>
+            @else
+            <p class="text-gray-500 italic">Tidak ada foto</p>
+            @endif
+        </div>
+
+    </div>
+
+    {{-- Tombol --}}
+    <div class="mt-6 text-center">
+        <a href="{{ route('bukutamu.index') }}"
+            class="px-5 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-900 transition">
+            Kembali
+        </a>
+    </div>
+
 </div>
+
 @endsection

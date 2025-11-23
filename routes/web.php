@@ -34,7 +34,8 @@ Route::get('/kepala-daerah/bupati', [KepalaDaerahUserController::class, 'bupati'
     ->name('user.bupati');
 Route::get('/wakilbupati', [KepalaDaerahUserController::class, 'wakilBupati'])->name('user.wakil-bupati');
 
-Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+// Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/', [BukuTamuController::class,'create'])->name('bukutamu.awal');
 
 Route::get('/beritauser', [BeritaUserController::class, 'index'])->name('user.berita');
 Route::get('/detailberita/{id}', [BeritaUserController::class, 'show'])->name('berita.show');

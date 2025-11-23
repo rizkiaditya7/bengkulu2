@@ -6,24 +6,40 @@ use App\Models\BukuTamu;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class BukuTamuExport implements FromCollection
+class BukuTamuExport implements FromCollection, WithHeadings
 {
+    protected $start;
+    protected $end;
+
+    public function __construct($start = null, $end = null)
+    {
+        $this->start = $start;
+        $this->end   = $end;
+    }
+
     public function collection()
     {
-        return BukuTamu::all()->map(function ($item) {
-            return [
-                'Nama' => $item->nama,
-                'No. HP' => $item->no_hp,
-                'Jabatan' => $item->jabatan,
-                'Instansi' => $item->instansi,
-                'Foto' => $item->foto ? asset('storage/' . $item->foto) : '-',
-            ];
-        });
-    
+        $query = BukuTamu::query();
+
+        if ($this->start && $this->end) {
+            $query->whereBetween('created_at', [
+                $this->start . ' 00:00:00',
+                $this->end . ' 23:59:59'
+            ]);
+        }
+
+        return $query->get(['nama', 'no_hp', 'jabatan', 'instansi', 'tujuan', 'created_at']);
     }
 
     public function headings(): array
     {
-        return ['Nama', 'No. HP', 'Jabatan', 'Instansi', 'Foto'];
+        return [
+            'Nama',
+            'No HP',
+            'Jabatan',
+            'Instansi',
+            'Tujuan',
+            'Tanggal'
+        ];
     }
 }

@@ -73,7 +73,7 @@ class BukuTamuController extends Controller
         // Simpan data ke database
         BukuTamu::create($validated);
         
-        return redirect()->route('bukutamu.index')->with('success', 'Data berhasil disimpan');
+        return redirect()->route('bukutamu.awal')->with('success', 'Data berhasil disimpan');
     }
 
     public function show(BukuTamu $bukutamu)
@@ -118,72 +118,106 @@ class BukuTamuController extends Controller
     }
 
     
-    public function export()
+    public function export(Request $request)
     {
-        // dd("sampe sini");
-        return Excel::download(new BukuTamuExport, 'buku_tamu.xlsx');
+        $start = $request->start_date;
+        $end   = $request->end_date;
+    
+        return Excel::download(new BukuTamuExport($start, $end), 'buku_tamu.xlsx');
     }
+    
 
 
-    public function exportPdf()
+    public function exportPdf(Request $request)
     {
-        $data = BukuTamu::all();
+        $start = $request->start_date;
+        $end   = $request->end_date;
+
+        $query = BukuTamu::query();
+
+        if ($start && $end) {
+            $query->whereBetween('created_at', [
+                $start . ' 00:00:00',
+                $end . ' 23:59:59'
+            ]);
+        }
+
+        $data = $query->orderBy('created_at', 'desc')->get();
 
         $pdf = Pdf::loadView('bukutamu.export-pdf', compact('data'))
             ->setPaper('a4', 'portrait');
 
         return $pdf->download('buku_tamu.pdf');
     }
+
     public function search(Request $request)
-{
-    // Ambil parameter dari DataTables
-        // echo($request->input('search.value'));die;
-    $draw   = intval($request->input('draw'));
-    $start  = intval($request->input('start', 0));
-    $length = intval($request->input('length', 10));
-    $search = $request->input('search.value'); 
+    {
+        $draw   = intval($request->input('draw'));
+        $start  = intval($request->input('start', 0));
+        $length = intval($request->input('length', 10));
+        $keyword = $request->input('search.value');
 
-    // Hitung total semua data
-    $totalRecords = BukuTamu::count();
+        // ============= NEW FILTER TANGGAL =============
+        $startDate = $request->start_date;
+        $endDate   = $request->end_date;
+        // ===============================================
 
-    // Query dasar
-    $query = BukuTamu::query();
+        $query = BukuTamu::query();
 
-    // Kalau ada pencarian
-    if (!empty($search)) {
-        $query->where(function ($q) use ($search) {
-            $q->where('nama', 'like', "%{$search}%")
-              ->orWhere('no_hp', 'like', "%{$search}%")
-              ->orWhere('jabatan', 'like', "%{$search}%")
-              ->orWhere('instansi', 'like', "%{$search}%");
-        });
+        // Filter tanggal bila ada
+        if ($startDate && $endDate) {
+            $query->whereBetween('created_at', [
+                $startDate . ' 00:00:00',
+                $endDate . ' 23:59:59'
+            ]);
+        }
+
+        // Filter search keyword
+        if (!empty($keyword)) {
+            $query->where(function ($q) use ($keyword) {
+                $q->where('nama', 'like', "%{$keyword}%")
+                ->orWhere('no_hp', 'like', "%{$keyword}%")
+                ->orWhere('jabatan', 'like', "%{$keyword}%")
+                ->orWhere('instansi', 'like', "%{$keyword}%");
+            });
+        }
+
+        // Hitung total filtered
+        $totalFiltered = $query->count();
+
+        // Data berdasarkan pagination
+        $data = $query->orderBy('created_at', 'desc')
+                    ->skip($start)
+                    ->take($length)
+                    ->get();
+
+        // Total semua data (tanpa filter)
+        $totalRecords = BukuTamu::count();
+
+        return response()->json([
+            'draw' => $draw,
+            'recordsTotal' => $totalRecords,
+            'recordsFiltered' => $totalFiltered,
+            'data' => $data,
+        ]);
     }
 
-    // Hitung total data yang difilter
-    $totalFiltered = $query->count();
-
-    // Ambil data sesuai pagination dari DataTables
-    $data = $query->skip($start)
-                  ->take($length)
-                  ->orderBy('created_at', 'desc')
-                  ->get();
-
-    // Format respons sesuai DataTables
-    return response()->json([
-        'draw' => intval($draw),
-        'recordsTotal' => $totalRecords,
-        'recordsFiltered' => $totalFiltered,
-        'data' => $data,
-    ]);
-
-    
-}
- /**
-     * Grafik jumlah tamu per instansi
-     */
-    public function instansi()
+    public function instansi(Request $request)
     {
-        $data = BukuTamu::select('instansi', DB::raw('COUNT(*) as total'))
+        $start = $request->start_date;
+        $end   = $request->end_date;
+
+        $query = BukuTamu::query();
+
+        // Jika ada filter tanggal
+        if ($start && $end) {
+            $query->whereBetween('created_at', [
+                $start . " 00:00:00",
+                $end . " 23:59:59"
+            ]);
+        }
+
+        $data = $query->select('instansi', DB::raw('COUNT(*) as total'))
             ->groupBy('instansi')
             ->orderBy('total', 'desc')
             ->get();
@@ -194,12 +228,22 @@ class BukuTamuController extends Controller
         ]);
     }
 
-    /**
-     * Grafik jumlah tamu per jabatan
-     */
-    public function jabatan()
+
+    public function jabatan(Request $request)
     {
-        $data = BukuTamu::select('jabatan', DB::raw('COUNT(*) as total'))
+        $start = $request->start_date;
+        $end   = $request->end_date;
+
+        $query = BukuTamu::query();
+
+        if ($start && $end) {
+            $query->whereBetween('created_at', [
+                $start . " 00:00:00",
+                $end . " 23:59:59"
+            ]);
+        }
+
+        $data = $query->select('jabatan', DB::raw('COUNT(*) as total'))
             ->groupBy('jabatan')
             ->orderBy('total', 'desc')
             ->get();
@@ -210,12 +254,25 @@ class BukuTamuController extends Controller
         ]);
     }
 
-    /**
-     * Grafik jumlah tamu per tanggal (dari kolom created_at)
-     */
-    public function harian()
+
+    public function harian(Request $request)
     {
-        $data = BukuTamu::select(DB::raw('DATE(created_at) as tanggal'), DB::raw('COUNT(*) as total'))
+        $start = $request->start_date;
+        $end   = $request->end_date;
+
+        $query = BukuTamu::query();
+
+        if ($start && $end) {
+            $query->whereBetween('created_at', [
+                $start . " 00:00:00",
+                $end . " 23:59:59"
+            ]);
+        }
+
+        $data = $query->select(
+                DB::raw('DATE(created_at) as tanggal'),
+                DB::raw('COUNT(*) as total')
+            )
             ->groupBy(DB::raw('DATE(created_at)'))
             ->orderBy('tanggal', 'asc')
             ->get();

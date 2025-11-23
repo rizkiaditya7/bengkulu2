@@ -21,15 +21,20 @@
         <div class="container mx-auto px-6 py-3 flex justify-between items-center">
             {{-- Logo --}}
             <a href="{{ url('/') }}" class="flex items-center space-x-3">
-                <img src="{{ asset('storage/' . ($profil->logo ?? '')) }}" alt="Logo Kabupaten helium01"
-                    class="h-14 w-14 drop-shadow-md">
+
                 <div>
                     <p class="text-blue-900 font-bold text-xl leading-tight tracking-tight">
-                        {{ $profil->bagian1 ?? 'Nama Perusahaan' }}</p>
+                    </p>
                     <p class="text-blue-700 font-bold text-xl leading-tight tracking-tight">
-                        {{ $profil->bagian2 ?? 'Nama Perusahaan' }}</p>
+                    </p>
                 </div>
             </a>
+            {{-- Teks Tengah --}}
+            <div class="hidden md:block">
+                <p class="text-blue-900 font-bold text-lg tracking-wide">
+                    BUKU TAMU DIGITAL UPT BKN BENGKULU
+                </p>
+            </div>
 
             {{-- Toggle for mobile --}}
             <button id="menu-toggle"
@@ -104,14 +109,14 @@
                     class="block md:inline-block px-4 py-2 rounded-md hover:bg-blue-200/70 transition">
                     Penghargaan
                 </a> -->
-                <a href="{{ route('bukutamu.front') }}"
+                <!-- <a href="{{ route('bukutamu.front') }}"
                     class="block md:inline-block px-4 py-2 rounded-md hover:bg-blue-200/70 transition">
                     Buku Tamu
                 </a>
                 <a href="{{ route('survei.create') }}"
                     class="block md:inline-block px-4 py-2 rounded-md hover:bg-blue-200/70 transition">
                     Survei
-                </a>
+                </a> -->
                 @auth
                 {{-- Jika user sudah login --}}
                 <a href="{{ route('admin.dashboard') }}"

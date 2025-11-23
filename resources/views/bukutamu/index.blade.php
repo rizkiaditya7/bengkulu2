@@ -3,8 +3,48 @@
 @section('content')
 <div class="max-w-7xl mx-auto px-4 py-8">
     <h2 class="text-3xl font-bold text-blue-700 mb-6 text-center">
-        📖 Buku Tamu Digital UPT BKN PALU
+        📖 BUKU TAMU DIGITAL UPT BKN BENGKULU
     </h2>
+
+
+    <div class="bg-white p-4 rounded-xl shadow-md mb-6">
+        <div class="flex flex-col md:flex-row items-center md:items-end gap-4">
+
+            {{-- Tanggal Awal --}}
+            <div class="w-full md:w-auto">
+                <label class="block font-semibold text-gray-700 mb-1">Tanggal Awal</label>
+                <input type="date" id="start_date" name="start_date" value="{{ request('start_date') }}"
+                    class="border border-gray-300 rounded-lg px-3 py-2 w-full md:w-48 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+            </div>
+
+            {{-- Tanggal Akhir --}}
+            <div class="w-full md:w-auto">
+                <label class="block font-semibold text-gray-700 mb-1">Tanggal Akhir</label>
+                <input type="date" id="end_date" name="end_date" value="{{ request('end_date') }}"
+                    class="border border-gray-300 rounded-lg px-3 py-2 w-full md:w-48 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+            </div>
+
+            {{-- Tombol Filter --}}
+            <div>
+                <button id="filterButton"
+                    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition">
+                    Filter
+                </button>
+            </div>
+
+            {{-- Tombol Reset --}}
+            <div>
+                <button id="resetButton"
+                    class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow hover:bg-gray-600 transition">
+                    Reset
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+
+
 
     {{-- Tombol tambah --}}
     <div class="flex justify-end mb-4">
@@ -12,13 +52,16 @@
             class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md transition">
             + Tambah Tamu
         </a>
-        <a href="{{ route('bukutamu.export') }}"
-            class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg shadow-md transition">
-            ⬇️ Export Excel
+        {{-- Export Excel --}}
+        <a href="#" id="exportExcel"
+            class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg shadow-md transition flex items-center gap-1">
+            ⬇️ <span>Export Excel</span>
         </a>
-        <a href="{{ route('bukutamu.export.pdf') }}"
-            class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg shadow-md transition">
-            🧾 Export PDF
+
+        {{-- Export PDF --}}
+        <a href="#" id="exportPDF"
+            class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg shadow-md transition flex items-center gap-1">
+            🧾 <span>Export PDF</span>
         </a>
 
     </div>
@@ -136,6 +179,8 @@ $(document).ready(function() {
             url: "{{ route('bukutamu.search') }}",
             data: function(d) {
                 d.q = $('#searchInput').val();
+                d.start_date = $('#start_date').val();
+                d.end_date = $('#end_date').val();
             },
             beforeSend: function() {
                 $('#loadingOverlay').removeClass('hidden');
@@ -188,6 +233,15 @@ $(document).ready(function() {
         ]
     });
 
+    $('#filterButton').on('click', function() {
+        loadCharts();
+        table.ajax.reload();
+    });
+    $('#resetButton').on('click', function() {
+        $('#start_date').val('');
+        $('#end_date').val('');
+        table.ajax.reload();
+    });
     // Event: Search manual pakai input custom
     $('#searchInput').on('keyup', function() {
         clearTimeout(window.searchDelay);
@@ -199,8 +253,14 @@ $(document).ready(function() {
     let chartInstansi, chartJabatan, chartHarian;
 
     function loadCharts() {
+        let startDate = $("#start_date").val();
+        let endDate = $("#end_date").val();
+
         // Grafik per instansi
-        $.get("{{ route('chart.instansi') }}", function(response) {
+        $.get("{{ route('chart.instansi') }}", {
+            start_date: startDate,
+            end_date: endDate
+        }, function(response) {
             if (chartInstansi) chartInstansi.destroy();
             chartInstansi = new Chart(document.getElementById('chartInstansi'), {
                 type: 'bar',
@@ -225,7 +285,10 @@ $(document).ready(function() {
         });
 
         // Grafik per jabatan
-        $.get("{{ route('chart.jabatan') }}", function(response) {
+        $.get("{{ route('chart.jabatan') }}", {
+            start_date: startDate,
+            end_date: endDate
+        }, function(response) {
             if (chartJabatan) chartJabatan.destroy();
             chartJabatan = new Chart(document.getElementById('chartJabatan'), {
                 type: 'pie',
@@ -234,7 +297,8 @@ $(document).ready(function() {
                     datasets: [{
                         data: response.values,
                         backgroundColor: [
-                            '#36A2EB', '#FF6384', '#FFCE56', '#4BC0C0', '#9966FF'
+                            '#36A2EB', '#FF6384', '#FFCE56',
+                            '#4BC0C0', '#9966FF', '#FF9F40'
                         ]
                     }]
                 },
@@ -247,7 +311,12 @@ $(document).ready(function() {
                 }
             });
         });
-        $.get("{{ route('chart.harian') }}", function(res) {
+
+        // Grafik harian
+        $.get("{{ route('chart.harian') }}", {
+            start_date: startDate,
+            end_date: endDate
+        }, function(res) {
             if (chartHarian) chartHarian.destroy();
             chartHarian = new Chart($('#chartHarian'), {
                 type: 'line',
@@ -278,12 +347,30 @@ $(document).ready(function() {
                 }
             });
         });
-
     }
 
 
     // Jalankan setelah halaman siap
     loadCharts();
+});
+document.getElementById("exportExcel").addEventListener("click", function(e) {
+    e.preventDefault();
+
+    const start = document.getElementById("start_date").value;
+    const end = document.getElementById("end_date").value;
+
+    let url = "{{ route('bukutamu.export') }}?start_date=" + start + "&end_date=" + end;
+    window.location.href = url;
+});
+
+document.getElementById("exportPDF").addEventListener("click", function(e) {
+    e.preventDefault();
+
+    const start = document.getElementById("start_date").value;
+    const end = document.getElementById("end_date").value;
+
+    let url = "{{ route('bukutamu.export.pdf') }}?start_date=" + start + "&end_date=" + end;
+    window.location.href = url;
 });
 </script>
 
