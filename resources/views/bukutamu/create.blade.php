@@ -40,11 +40,11 @@
                     class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-300"></textarea>
             </div>
 
-            <div>
+            <!-- <div>
                 <label class="block font-medium mb-1 text-gray-700">Atau Upload Manual</label>
                 <input type="file" name="foto" accept="image/*"
                     class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-300">
-            </div>
+            </div> -->
         </div>
 
         <!-- Bagian Kanan: Kamera -->

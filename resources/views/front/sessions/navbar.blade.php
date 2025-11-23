@@ -112,11 +112,11 @@
                 <!-- <a href="{{ route('bukutamu.front') }}"
                     class="block md:inline-block px-4 py-2 rounded-md hover:bg-blue-200/70 transition">
                     Buku Tamu
-                </a>
-                <a href="{{ route('survei.create') }}"
-                    class="block md:inline-block px-4 py-2 rounded-md hover:bg-blue-200/70 transition">
-                    Survei
                 </a> -->
+                <a href="/" class="block md:inline-block px-4 py-2 rounded-md hover:bg-blue-200/70 transition">
+                    <i class="fas fa-camera-retro w-6"></i> Absen
+
+                </a>
                 @auth
                 {{-- Jika user sudah login --}}
                 <a href="{{ route('admin.dashboard') }}"

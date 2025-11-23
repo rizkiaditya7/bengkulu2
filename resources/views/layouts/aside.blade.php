@@ -104,6 +104,11 @@
             <i class="fas fa-newspaper w-6"></i>
             <span class="ml-4">Hasil Absensi</span>
         </a>
+        <a href="/" class="flex items-center px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-700">
+            <i class="fas fa-camera-retro w-6"></i>
+
+            <span class="ml-4">mulai absen</span>
+        </a>
     </nav>
 
     <div class="mt-auto">
