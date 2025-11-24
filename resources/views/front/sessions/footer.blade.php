@@ -1,6 +1,6 @@
 <footer class="bg-gradient-to-r from-blue-100 via-blue-200 to-blue-300 text-blue-900 pt-16 pb-8">
     <div class="container mx-auto px-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+        <!-- <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
 
             {{-- Tentang Kami --}}
             <div class="col-span-1 md:col-span-2 lg:col-span-1">
@@ -57,7 +57,7 @@
                     </li>
                 </ul>
             </div>
-        </div>
+        </div> -->
 
         {{-- Copyright --}}
         <div class="mt-12 border-t border-blue-300 pt-6 text-center text-sm text-blue-700/80">
