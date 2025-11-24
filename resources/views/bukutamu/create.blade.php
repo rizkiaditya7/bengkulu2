@@ -1,6 +1,11 @@
 @extends('front.layout')
 
 @section('content')
+<div class="w-full text-center mt-8 text-xl font-bold text-gray-700 mb-4">
+    <div id="date"></div>
+    <span id="clock"></span>
+</div>
+
 <div class="max-w-6xl mx-auto mt-8 bg-white shadow-md rounded-lg p-6">
     <h3 class="text-2xl font-semibold text-blue-700 mb-6 text-center">📸 Tambah Buku Tamu Digital</h3>
 
@@ -36,9 +41,26 @@
 
             <div>
                 <label class="block font-medium mb-1 text-gray-700">Tujuan Kunjungan</label>
-                <textarea name="tujuan" rows="3"
-                    class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-300"></textarea>
+                <select id="tujuan" name="tujuan" class="w-full border rounded-lg px-3 py-2">
+                    <option value="">-- Pilih Tujuan --</option>
+
+                    <option value="Mutasi">Mutasi</option>
+                    <option value="Pengadaan CASN">Pengadaan CASN</option>
+                    <option value="Pengangkatan">Pengangkatan</option>
+                    <option value="Pemberhentian">Pemberhentian</option>
+                    <option value="Pensiun">Pensiun</option>
+
+                    <option value="Pembinaan">Pembinaan</option>
+                    <option value="Pengawasan">Pengawasan</option>
+                    <option value="Uji Kompetensi / Ujian Dinas">Uji Kompetensi / Ujian Dinas</option>
+                    <option value="Kenaikan Pangkat">Kenaikan Pangkat</option>
+
+                    <option value="Jenjang / Jabatan">Jenjang / Jabatan</option>
+                    <option value="Kendala Aplikasi BKN">Kendala Aplikasi BKN</option>
+                    <option value="Lainnya">Lainnya</option>
+                </select>
             </div>
+
 
             <!-- <div>
                 <label class="block font-medium mb-1 text-gray-700">Atau Upload Manual</label>
@@ -83,6 +105,20 @@
 </div>
 
 <!-- Script Kamera -->
+<!-- TomSelect (Searchable Dropdown) -->
+<link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
+
+<script>
+new TomSelect("#tujuan", {
+    create: false,
+    sortField: {
+        field: "text",
+        direction: "asc"
+    },
+    placeholder: "Cari tujuan kunjungan..."
+});
+</script>
 <script>
 const video = document.getElementById('camera');
 const canvas = document.getElementById('canvas');
@@ -109,5 +145,35 @@ captureBtn.addEventListener('click', () => {
     previewContainer.classList.remove('hidden');
     previewImage.src = dataURL;
 });
+
+function updateDateTime() {
+    const now = new Date();
+
+    // Format tanggal Indonesia
+    const dateOptions = {
+        weekday: 'long',
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric',
+        timeZone: 'Asia/Jakarta'
+    };
+
+    const timeOptions = {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+        timeZone: 'Asia/Jakarta'
+    };
+
+    document.getElementById('date').innerText =
+        now.toLocaleDateString('id-ID', dateOptions);
+
+    document.getElementById('clock').innerText =
+        now.toLocaleTimeString('id-ID', timeOptions);
+}
+
+setInterval(updateDateTime, 1000);
+updateDateTime();
 </script>
 @endsection
