@@ -88,25 +88,46 @@ class BukuTamuController extends Controller
 
     public function update(Request $request, BukuTamu $bukutamu)
     {
-        $validated = $request->validate([
-            'nama' => 'required|string|max:255',
-            'no_hp' => 'required|string|max:20',
-            'jabatan' => 'nullable|string|max:100',
-            'instansi' => 'nullable|string|max:100',
+        $request->validate([
+            'nama' => 'required',
+            'no_hp' => 'required',
+            'jabatan' => 'nullable|string',
+            'instansi' => 'nullable|string',
             'tujuan' => 'nullable|string',
-            'foto' => 'nullable|image|max:2048',
+            'foto_data' => 'nullable'
         ]);
 
-        if ($request->hasFile('foto')) {
-            if ($bukutamu->foto && Storage::disk('public')->exists($bukutamu->foto)) {
-                Storage::disk('public')->delete($bukutamu->foto);
-            }
-            $validated['foto'] = $request->file('foto')->store('foto_tamu', 'public');
+        // Jika ada foto kamera baru
+        if ($request->foto_data) {
+
+            $image = $request->foto_data;
+        
+            // Pisahkan data URI: "data:image/png;base64,xxxxxx"
+            $image_parts = explode(";base64,", $image);
+            $image_type_aux = explode("image/", $image_parts[0]);
+            $image_type = $image_type_aux[1];
+            $image_base64 = base64_decode($image_parts[1]);
+        
+            $fileName = 'foto_tamu/' . uniqid() . '.' . $image_type;
+        
+            // Simpan ke storage/app/public/foto_tamu/
+            Storage::disk('public')->put($fileName, $image_base64);
+
+            // Update foto
+            $bukutamu->foto = $fileName;
         }
 
-        $bukutamu->update($validated);
-        return redirect()->route('bukutamu.index')->with('success', 'Data berhasil diperbarui');
+        $bukutamu->update([
+            'nama' => $request->nama,
+            'no_hp' => $request->no_hp,
+            'jabatan' => $request->jabatan,
+            'instansi' => $request->instansi,
+            'tujuan' => $request->tujuan,
+        ]);
+
+        return redirect()->route('bukutamu.index')->with('success', 'Data berhasil diperbarui.');
     }
+
 
     public function destroy(BukuTamu $bukutamu)
     {
