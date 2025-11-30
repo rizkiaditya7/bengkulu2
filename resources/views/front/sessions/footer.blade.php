@@ -1,3 +1,42 @@
+<style>
+/* Fade-in smooth */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Marquee smooth */
+@keyframes marquee {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+.marquee-text {
+    display: inline-block;
+    opacity: 0;
+    animation:
+        fadeIn 1.5s ease-in forwards,
+        /* muncul smooth */
+        marquee 12s linear infinite;
+    /* berjalan smooth */
+    animation-delay: 0s, 1.5s;
+    /* path: fade dulu, lalu jalan */
+}
+
+.marquee-text:hover {
+    animation-play-state: paused;
+}
+</style>
 <footer class="bg-gradient-to-r from-blue-100 via-blue-200 to-blue-300 text-blue-900 pt-16 pb-8">
     <div class="container mx-auto px-6">
         <!-- <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
@@ -58,6 +97,11 @@
                 </ul>
             </div>
         </div> -->
+        <div class="mt-6 w-full overflow-hidden">
+            <p class="marquee-text whitespace-nowrap text-center text-xl font-semibold text-blue-700">
+                Selamat Datang di Buku Tamu — Terima Kasih Telah Berkunjung
+            </p>
+        </div>
 
         {{-- Copyright --}}
         <div class="mt-12 border-t border-blue-300 pt-6 text-center text-sm text-blue-700/80">

@@ -53,6 +53,7 @@
         <thead>
             <tr>
                 <th>No</th>
+                <th>Tanggal</th>
                 <th>Nama</th>
                 <th>No. HP</th>
                 <th>Jabatan</th>
@@ -64,6 +65,7 @@
             @foreach ($data as $item)
             <tr>
                 <td>{{ $loop->iteration }}</td>
+                <td>{{ $item->tanggal }}</td>
                 <td>{{ $item->nama }}</td>
                 <td>{{ $item->no_hp }}</td>
                 <td>{{ $item->jabatan }}</td>

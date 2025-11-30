@@ -163,7 +163,13 @@ class BukuTamuController extends Controller
             ]);
         }
 
-        $data = $query->orderBy('created_at', 'desc')->get();
+        $data = $query->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($item) {
+                $item->tanggal = $item->created_at ? $item->created_at->format('d-m-Y') : null;
+                return $item;
+            });
+
 
         $pdf = Pdf::loadView('bukutamu.export-pdf', compact('data'))
             ->setPaper('a4', 'portrait');
@@ -208,12 +214,18 @@ class BukuTamuController extends Controller
 
         // Data berdasarkan pagination
         $data = $query->orderBy('created_at', 'desc')
-                    ->skip($start)
-                    ->take($length)
-                    ->get();
+        ->skip($start)
+        ->take($length)
+        ->get()
+        ->map(function ($item) {
+            $item->tanggal = $item->created_at->format('d-m-Y');
+            return $item;
+        });
+    
 
         // Total semua data (tanpa filter)
         $totalRecords = BukuTamu::count();
+        
 
         return response()->json([
             'draw' => $draw,

@@ -27,8 +27,15 @@ class BukuTamuExport implements FromCollection, WithHeadings
                 $this->end . ' 23:59:59'
             ]);
         }
-
-        return $query->get(['nama', 'no_hp', 'jabatan', 'instansi', 'tujuan', 'created_at']);
+        
+        return $query->get(['nama', 'no_hp', 'jabatan', 'instansi', 'tujuan', 'created_at'])
+            ->map(function ($row) {
+                $row->tanggal = $row->created_at
+                    ? $row->created_at->timezone('Asia/Jakarta')->format('Y-m-d H:i:s')
+                    : null;
+                return $row;
+            });
+        
     }
 
     public function headings(): array

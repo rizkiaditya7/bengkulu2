@@ -2,10 +2,10 @@
     {{-- Top bar --}}
     <div class="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white text-xs">
         <div class="container mx-auto px-6 py-2 flex justify-between items-center">
-            <div class="flex items-center space-x-2">
+            <!-- <div class="flex items-center space-x-2">
                 <i class="fas fa-envelope text-white/90"></i>
                 <span class="font-medium tracking-wide">{{ $profil->email ?? '' }}</span>
-            </div>
+            </div> -->
             <div class="flex items-center space-x-4">
                 @foreach ($media as $item)
                 <a href="{{ $item->link }}" target="_blank" class="hover:text-yellow-300 transition-colors">
@@ -21,7 +21,7 @@
         <div class="container mx-auto px-6 py-3 flex justify-between items-center">
             {{-- Logo --}}
             <a href="{{ url('/') }}" class="flex items-center space-x-3">
-
+                <img src="{{ asset('logo/logo_awal.png') }}" alt="Logo" class="h-12 w-auto object-contain">
                 <div>
                     <p class="text-blue-900 font-bold text-xl leading-tight tracking-tight">
                     </p>

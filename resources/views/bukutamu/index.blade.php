@@ -79,6 +79,7 @@
             <thead class="bg-gradient-to-r from-sky-400 to-blue-500 text-white">
                 <tr>
                     <th class="py-3 px-4 text-left font-semibold">No</th>
+                    <th class="py-3 px-4 text-left font-semibold">Tanggal</th>
                     <th class="py-3 px-4 text-left font-semibold">Nama</th>
                     <th class="py-3 px-4 text-left font-semibold">No. HP</th>
                     <th class="py-3 px-4 text-left font-semibold">Jabatan</th>
@@ -91,6 +92,7 @@
                 @foreach ($data as $item)
                 <tr class="hover:bg-blue-50 transition">
                     <td class="py-3 px-4">{{ $loop->iteration }}</td>
+                    <td class="py-3 px-4 font-medium text-gray-800">{{ $item->nama }}</td>
                     <td class="py-3 px-4 font-medium text-gray-800">{{ $item->nama }}</td>
                     <td class="py-3 px-4">{{ $item->no_hp }}</td>
                     <td class="py-3 px-4">{{ $item->jabatan }}</td>
@@ -196,6 +198,9 @@ $(document).ready(function() {
         columns: [{
                 data: null,
                 render: (data, type, row, meta) => meta.row + 1
+            },
+            {
+                data: 'tanggal'
             },
             {
                 data: 'nama'

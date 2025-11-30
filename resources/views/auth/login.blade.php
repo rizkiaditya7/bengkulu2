@@ -85,9 +85,9 @@
                             <span class="ms-2 text-gray-600">Ingat Saya</span>
                         </label>
 
-                        <a class="underline text-blue-800 hover:text-sky-600" href="{{ route('password.request') }}">
+                        <!-- <a class="underline text-blue-800 hover:text-sky-600" href="{{ route('password.request') }}">
                             Lupa password?
-                        </a>
+                        </a> -->
                     </div>
 
                     <div class="mt-8">

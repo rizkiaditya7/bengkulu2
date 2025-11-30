@@ -1,6 +1,17 @@
 @extends('front.layout')
 
 @section('content')
+<style>
+#tujuan option {
+    font-size: 40px;
+    /* bebas atur ukuran */
+    padding: 10px;
+}
+
+#tujuan {
+    font-size: 42px;
+}
+</style>
 <div class="w-full text-center mt-8 text-xl font-bold text-gray-700 mb-4">
     <div id="date"></div>
     <span id="clock"></span>
@@ -42,7 +53,7 @@
             <div>
                 <label class="block font-medium mb-1 text-gray-700">Tujuan Kunjungan</label>
                 <select id="tujuan" name="tujuan"
-                    class="w-full border rounded-lg px-4 py-3 text-lg focus:ring focus:ring-blue-300">
+                    class="w-full border rounded-lg px-4 py-3 text-8xl focus:ring focus:ring-blue-300">
                     <option value="">-- Pilih Tujuan --</option>
 
                     <option value="Mutasi">Mutasi</option>
@@ -109,6 +120,20 @@
 <!-- TomSelect (Searchable Dropdown) -->
 <link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
+
+@if (session('success'))
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    Swal.fire({
+        icon: "success",
+        title: "Berhasil!",
+        text: "{{ session('success') }}",
+        confirmButtonColor: "#16a34a"
+    });
+});
+</script>
+@endif
 
 <script>
 new TomSelect("#tujuan", {
