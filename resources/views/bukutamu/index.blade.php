@@ -129,7 +129,7 @@
             </tbody>
         </table>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+    <!-- <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
         <div class="bg-white p-4 rounded-lg shadow">
             <h3 class="text-lg font-semibold mb-2">Jumlah Tamu per Instansi</h3>
             <canvas id="chartInstansi"></canvas>
@@ -143,7 +143,7 @@
             <h3 class="text-lg font-semibold mb-2">Jumlah Tamu per Hari</h3>
             <canvas id="chartHarian"></canvas>
         </div>
-    </div>
+    </div> -->
 
 </div>
 
@@ -255,108 +255,108 @@ $(document).ready(function() {
         }, 500);
     });
 
-    let chartInstansi, chartJabatan, chartHarian;
+    // let chartInstansi, chartJabatan, chartHarian;
 
-    function loadCharts() {
-        let startDate = $("#start_date").val();
-        let endDate = $("#end_date").val();
+    // function loadCharts() {
+    //     let startDate = $("#start_date").val();
+    //     let endDate = $("#end_date").val();
 
-        // Grafik per instansi
-        $.get("{{ route('chart.instansi') }}", {
-            start_date: startDate,
-            end_date: endDate
-        }, function(response) {
-            if (chartInstansi) chartInstansi.destroy();
-            chartInstansi = new Chart(document.getElementById('chartInstansi'), {
-                type: 'bar',
-                data: {
-                    labels: response.labels,
-                    datasets: [{
-                        label: 'Jumlah Tamu per Instansi',
-                        data: response.values,
-                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                        borderColor: 'rgb(54, 162, 235)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-        });
+    //     // Grafik per instansi
+    //     $.get("{{ route('chart.instansi') }}", {
+    //         start_date: startDate,
+    //         end_date: endDate
+    //     }, function(response) {
+    //         if (chartInstansi) chartInstansi.destroy();
+    //         chartInstansi = new Chart(document.getElementById('chartInstansi'), {
+    //             type: 'bar',
+    //             data: {
+    //                 labels: response.labels,
+    //                 datasets: [{
+    //                     label: 'Jumlah Tamu per Instansi',
+    //                     data: response.values,
+    //                     backgroundColor: 'rgba(54, 162, 235, 0.6)',
+    //                     borderColor: 'rgb(54, 162, 235)',
+    //                     borderWidth: 1
+    //                 }]
+    //             },
+    //             options: {
+    //                 scales: {
+    //                     y: {
+    //                         beginAtZero: true
+    //                     }
+    //                 }
+    //             }
+    //         });
+    //     });
 
-        // Grafik per jabatan
-        $.get("{{ route('chart.jabatan') }}", {
-            start_date: startDate,
-            end_date: endDate
-        }, function(response) {
-            if (chartJabatan) chartJabatan.destroy();
-            chartJabatan = new Chart(document.getElementById('chartJabatan'), {
-                type: 'pie',
-                data: {
-                    labels: response.labels,
-                    datasets: [{
-                        data: response.values,
-                        backgroundColor: [
-                            '#36A2EB', '#FF6384', '#FFCE56',
-                            '#4BC0C0', '#9966FF', '#FF9F40'
-                        ]
-                    }]
-                },
-                options: {
-                    plugins: {
-                        legend: {
-                            position: 'bottom'
-                        }
-                    }
-                }
-            });
-        });
+    //     // Grafik per jabatan
+    //     $.get("{{ route('chart.jabatan') }}", {
+    //         start_date: startDate,
+    //         end_date: endDate
+    //     }, function(response) {
+    //         if (chartJabatan) chartJabatan.destroy();
+    //         chartJabatan = new Chart(document.getElementById('chartJabatan'), {
+    //             type: 'pie',
+    //             data: {
+    //                 labels: response.labels,
+    //                 datasets: [{
+    //                     data: response.values,
+    //                     backgroundColor: [
+    //                         '#36A2EB', '#FF6384', '#FFCE56',
+    //                         '#4BC0C0', '#9966FF', '#FF9F40'
+    //                     ]
+    //                 }]
+    //             },
+    //             options: {
+    //                 plugins: {
+    //                     legend: {
+    //                         position: 'bottom'
+    //                     }
+    //                 }
+    //             }
+    //         });
+    //     });
 
-        // Grafik harian
-        $.get("{{ route('chart.harian') }}", {
-            start_date: startDate,
-            end_date: endDate
-        }, function(res) {
-            if (chartHarian) chartHarian.destroy();
-            chartHarian = new Chart($('#chartHarian'), {
-                type: 'line',
-                data: {
-                    labels: res.labels,
-                    datasets: [{
-                        label: 'Jumlah Tamu per Hari',
-                        data: res.values,
-                        borderColor: '#36A2EB',
-                        backgroundColor: 'rgba(54,162,235,0.2)',
-                        tension: 0.3,
-                        fill: true,
-                        pointRadius: 4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            position: 'bottom'
-                        }
-                    }
-                }
-            });
-        });
-    }
+    //     // Grafik harian
+    //     $.get("{{ route('chart.harian') }}", {
+    //         start_date: startDate,
+    //         end_date: endDate
+    //     }, function(res) {
+    //         if (chartHarian) chartHarian.destroy();
+    //         chartHarian = new Chart($('#chartHarian'), {
+    //             type: 'line',
+    //             data: {
+    //                 labels: res.labels,
+    //                 datasets: [{
+    //                     label: 'Jumlah Tamu per Hari',
+    //                     data: res.values,
+    //                     borderColor: '#36A2EB',
+    //                     backgroundColor: 'rgba(54,162,235,0.2)',
+    //                     tension: 0.3,
+    //                     fill: true,
+    //                     pointRadius: 4
+    //                 }]
+    //             },
+    //             options: {
+    //                 responsive: true,
+    //                 scales: {
+    //                     y: {
+    //                         beginAtZero: true
+    //                     }
+    //                 },
+    //                 plugins: {
+    //                     legend: {
+    //                         position: 'bottom'
+    //                     }
+    //                 }
+    //             }
+    //         });
+    //     });
+    // }
 
 
-    // Jalankan setelah halaman siap
-    loadCharts();
+    // // Jalankan setelah halaman siap
+    // loadCharts();
 });
 document.getElementById("exportExcel").addEventListener("click", function(e) {
     e.preventDefault();
